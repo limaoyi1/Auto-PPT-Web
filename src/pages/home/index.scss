@@ -1,0 +1,42 @@
+.home{
+	background: url("./../../statics/images/bg.png") repeat;
+	background-size: 100% 100%;
+
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	&-title{
+		font-weight:600;
+		color: white;
+		font-size:32px;
+		line-height:48px;
+		text-align:center;
+	}
+	&-subtitle{
+		color:#eeeeee;
+		font-size:16px;
+		line-height:22px;
+		margin: 24px 0 60px 0;
+	}
+	&-btn{
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		opacity:65%;
+		width:160px;
+		height:40px;
+		background:#ffffff;
+		border-radius:4px;
+		font-weight:700;
+		color:#2977f0;
+		font-size:14px;
+		line-height:20px;
+		cursor: pointer;
+		&:hover{
+			opacity: 0.55;
+		}
+	}
+}

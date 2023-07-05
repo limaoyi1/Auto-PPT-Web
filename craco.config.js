@@ -11,8 +11,7 @@ const { whenProd } = require("@craco/craco")
 
 module.exports = {
 	devServer: {
-		port: 4300,
-		open: false
+		port: 1415
 	},
 	webpack: {
 		alias: {
