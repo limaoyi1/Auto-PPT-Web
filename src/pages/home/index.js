@@ -5,14 +5,17 @@
  */
 import "./index.scss"
 import {useNavigate} from "react-router-dom"
+import memory from "@utils/memory";
 
 function Home() {
 	const navigate = useNavigate();
 	/**
 	 * 前往写报告界面
 	 */
-	const navToAutoPaper = () => navigate("/auto-paper")
-	
+	const navToAutoPaper = () => {
+		memory.clearCache()
+		navigate("/auto-paper")
+	}
 	
 	return <div className="home">
 		<div className="home-title">A I智能报告写作助手</div>
