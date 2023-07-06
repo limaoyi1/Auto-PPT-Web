@@ -52,7 +52,10 @@ const request = {
 						done = readerDone
 						if (value) {
 							const chunk = new TextDecoder().decode(value)
-							decodedData += chunk
+							console.log(chunk, 'chunkchunkchunkchunkchunkchunkchunkchunkchunkchunkchunk')
+							if(chunk !== "assistant" && chunk !== "stop"){
+								decodedData += chunk
+							}
 							_.isFunction(options?.cb) && options?.cb(decodedData)
 						}
 					}
