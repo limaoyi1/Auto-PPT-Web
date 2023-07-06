@@ -8,7 +8,7 @@ import "./index.scss"
 import {Button, Form, Input, InputNumber, Radio, Steps} from "antd";
 import {MinusOutlined, PlusOutlined} from "@ant-design/icons"
 import ThButton from "@comp/button";
-import {generate_outline, generate_title} from "@services/generate";
+import {generate_outline, generate_paper, generate_title} from "@services/generate";
 import {useState} from "react";
 import memory from "@utils/memory";
 
@@ -41,6 +41,7 @@ function AutoPaper() {
 	const [form] = Form.useForm()
 	const [form2] = Form.useForm()
 	const [form3] = Form.useForm()
+	const [form4] = Form.useForm()
 	const [current, setCurrent] = useState(0)
 	const [caption, setCaption] = useState("") // 标题
 	const [outline, setOutline] = useState("") // 大纲
@@ -99,6 +100,42 @@ function AutoPaper() {
 		}
 	}
 	
+	/**
+	 * 第三步
+	 * @returns {Promise<void>}
+	 */
+	const thirdStep = async () =>{
+		try{
+			let values = await form3.validateFields()
+			const cb = str => {
+				setCurrent(current + 1)
+				console.log(str, 'str=======================strstr')
+				setOutline(str)
+				form4.setFieldsValue({paper: str})
+			}
+			/**
+			 * 完成的回调
+			 */
+			const stopCallback = content =>{
+				//存上下文缓存
+				memory.addCache([
+					{role: "user",content: `我需要你根据大纲扩写文章. 要求${values.requirement}大纲为${values.outline}`},
+					{role: "assistant",content}
+				])
+			}
+			await generate_paper({...values, cb, stopCallback})
+		}catch (e) {
+		
+		}
+	}
+	/**
+	 * 第四步
+	 * @returns {Promise<void>}
+	 */
+	const fourthStep = async () =>{
+	
+	}
+	
 	
 	return (
 		<div className="auto-paper">
@@ -150,10 +187,8 @@ function AutoPaper() {
 						<Form.Item name="outline" initialValue={outline} label="大纲"  rules={[{required: true, message: '请添加大纲!'}]}>
 							<TextArea
 								autoSize={{ minRows: 3, maxRows: 30 }}
-								value={outline}
 								showCount
 								style={{ minHeight: 120, paddingBottom: 20, resize: "none", borderRadius: 4 }}
-								onChange={e => setOutline(e.target.value)}
 								placeholder="输入大纲信息"
 							/>
 						</Form.Item>
@@ -165,8 +200,21 @@ function AutoPaper() {
 								placeholder="您可以继续输入对于文章全文的生成要求，如结构清晰，内容详细，每个小点至少编写300字"
 							/>
 						</Form.Item>
+						<Form.Item>
+							<ThButton title="下一步" type="primary" block onClick={thirdStep}/>
+						</Form.Item>
 					</Form>
-					
+				</div>
+				{/*第四步*/}
+				<div className="form step-3" style={{display: current === 3 ? "block" : "none"}}>
+					<Form form={form4} layout="vertical">
+						<Form.Item label="文章" name="paper">
+							<TextArea rows={8} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount />
+						</Form.Item>
+						<Form.Item>
+							<ThButton title="下一步" type="primary" block onClick={fourthStep}/>
+						</Form.Item>
+					</Form>
 				</div>
 			</div>
 		

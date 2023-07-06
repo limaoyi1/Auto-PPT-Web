@@ -16,10 +16,21 @@ export function generate_title(data) {
 }
 
 /**
- * 获取标题
+ * 获取大纲
  * @param data
  * @returns {Promise<*>}
  */
 export function generate_outline(data) {
 	return request.post("/generate_outline", { data },"sse")
 }
+
+/**
+ * 获取正文
+ * @param data
+ * @returns {Promise<*>}
+ */
+export function generate_paper(data) {
+	return request.post("/generate_paper", { data },"sse")
+}
+
+

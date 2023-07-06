@@ -14,7 +14,12 @@ const memory = {
 		localStorage.setItem(defaultKey, value);
 	},
 	getCache: function () {
-		localStorage.getItem(defaultKey)
+		let json = localStorage.getItem(defaultKey)
+		let parseData = []
+		if (utils.isJson(json)){
+			parseData = JSON.parse(json)
+		}
+		return parseData
 	},
 	removeCache: function () {
 		localStorage.removeItem(defaultKey)
