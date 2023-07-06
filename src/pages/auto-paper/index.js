@@ -216,6 +216,10 @@ function AutoPaper() {
 						</Form.Item>
 					</Form>
 				</div>
+				{/*第五步*/}
+				<div className="form step-3" style={{display: current === 4 ? "block" : "none"}}>
+				
+				</div>
 			</div>
 		
 		</div>
