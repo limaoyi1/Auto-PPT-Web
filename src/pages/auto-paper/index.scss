@@ -1,0 +1,22 @@
+.auto-paper{
+	background: #fafbfc;
+	margin: 0 auto;
+	min-height: 100vh;
+	padding-top: 112px;
+	box-sizing: border-box;
+	&-box{
+		max-width: 1200px;
+		margin: 0 auto;
+
+		.form{
+			background: #fff;
+			border-radius: 4px;
+			box-shadow: 0 0 12px 0 rgba(124,142,166,.2);
+			height: 1095px;
+			margin: 20px auto 40px;
+			padding: 40px;
+			position: relative;
+			width: 1160px;
+		}
+	}
+}
