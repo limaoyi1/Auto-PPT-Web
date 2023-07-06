@@ -51,6 +51,7 @@ function AutoPaper() {
 		<div className="auto-paper">
 			<div className="auto-paper-box">
 				<Steps current={0} items={items}/>
+				{/*第一步*/}
 				<div className="form step-1">
 					<Form form={form} layout="vertical">
 						<Form.Item label="报告类型" name="username" rules={[{required: true, message: '请输入报告类型!'}]}>
@@ -70,6 +71,10 @@ function AutoPaper() {
 							<ThButton title="下一步" type="primary" block onClick={firstStep}/>
 						</Form.Item>
 					</Form>
+				</div>
+				{/*第二步*/}
+				<div className="form step-2">
+				
 				</div>
 			</div>
 		
