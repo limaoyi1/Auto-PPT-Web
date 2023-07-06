@@ -10,6 +10,7 @@ import {MinusOutlined, PlusOutlined} from "@ant-design/icons"
 import ThButton from "@comp/button";
 import {generate_outline, generate_title} from "@services/generate";
 import {useState} from "react";
+import memory from "@utils/memory";
 
 const {TextArea} = Input;
 
@@ -80,12 +81,24 @@ function AutoPaper() {
 				console.log(str, 'str=======================strstr')
 				setOutline(str)
 				form3.setFieldsValue({outline: str})
+				
 			}
-			await generate_outline({...values, cb})
+			/**
+			 * 完成的回调
+			 */
+			const stopCallback = content =>{
+				//存上下文缓存
+				memory.addCache([
+					{role: "user",content: `使用中文根据【${values.title}】生成大纲，大纲要求【${values.requirement}】`},
+					{role: "assistant",content}
+				])
+			}
+			await generate_outline({...values, cb, stopCallback})
 		} catch (e) {
 		
 		}
 	}
+	
 	
 	return (
 		<div className="auto-paper">

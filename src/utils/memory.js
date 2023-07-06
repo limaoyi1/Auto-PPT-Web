@@ -3,7 +3,7 @@
  * @author Kevin
  * @date 2023/7/6
  */
-
+import _ from "lodash"
 import utils from "@/utils/index";
 
 const defaultKey = "history"
@@ -32,7 +32,11 @@ const memory = {
 		if (utils.isJson(oldHistory)){
 			parseData = JSON.parse(oldHistory)
 		}
-		parseData.push(value)
+		if(_.isArray(parseData)){
+			_.concat(parseData, value)
+		} else {
+			parseData.push(value)
+		}
 		const json = JSON.stringify(parseData)
 		this.setCache(json)
 	}

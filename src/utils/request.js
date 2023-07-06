@@ -52,11 +52,13 @@ const request = {
 						done = readerDone
 						if (value) {
 							const chunk = new TextDecoder().decode(value)
-							console.log(chunk, 'chunkchunkchunkchunkchunkchunkchunkchunkchunkchunkchunk')
-							if(chunk !== "assistant" && chunk !== "stop"){
+							console.log(chunk, '==========chunkchunkchunkchunkchunkchunkchunkchunkchunkchunkchunk=======',_.includes(chunk, "stop"))
+							if(!_.includes(chunk, "stop")){
 								decodedData += chunk
+								_.isFunction(options?.cb) && options?.cb(decodedData)
+							} else {
+								_.isFunction(options?.stopCallback) && options?.stopCallback(decodedData)
 							}
-							_.isFunction(options?.cb) && options?.cb(decodedData)
 						}
 					}
 					resolve()
