@@ -209,7 +209,7 @@ function AutoPaper() {
 				<div className="form step-3" style={{display: current === 3 ? "block" : "none"}}>
 					<Form form={form4} layout="vertical">
 						<Form.Item label="文章" name="paper">
-							<TextArea rows={8} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount />
+							<TextArea autoSize={{ minRows: 8, maxRows: 30 }} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount />
 						</Form.Item>
 						<Form.Item>
 							<ThButton title="下一步" type="primary" block onClick={fourthStep}/>
