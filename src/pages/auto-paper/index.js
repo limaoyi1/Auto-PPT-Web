@@ -5,12 +5,13 @@
  */
 import _ from 'lodash';
 import "./index.scss"
-import {Button, Form, Input, InputNumber, Radio, Row, Steps} from "antd";
+import {Button, Form, Input, InputNumber, Radio, Row, Steps, message} from "antd";
 import {MinusOutlined, PlusOutlined, CopyFilled,SendOutlined } from "@ant-design/icons"
 import ThButton from "@comp/button";
-import {generate_outline, generate_paper, generate_title} from "@services/generate";
+import {generate_outline, generate_paper, generate_paper_continue, generate_title} from "@services/generate";
 import {useState} from "react";
 import memory from "@utils/memory";
+import copyText from "copy-to-clipboard"
 
 const {TextArea} = Input;
 
@@ -42,9 +43,12 @@ function AutoPaper() {
 	const [form2] = Form.useForm()
 	const [form3] = Form.useForm()
 	const [form4] = Form.useForm()
-	const [current, setCurrent] = useState(3)
+	const [current, setCurrent] = useState(0)
 	const [caption, setCaption] = useState("") // 标题
 	const [outline, setOutline] = useState("") // 大纲
+	const [paper, setPaper] = useState("")     // 正文
+	
+	const paperValue = Form.useWatch('paper', form4);
 	
 	
 	/**
@@ -99,6 +103,16 @@ function AutoPaper() {
 		
 		}
 	}
+	/**
+	 * 置底
+	 * @param id
+	 */
+	const calcScrollTop = id => {
+		if (id) {
+			const dom = document.getElementById(id)
+			dom.scrollTop = dom.scrollHeight
+		}
+	}
 	
 	/**
 	 * 第三步
@@ -110,8 +124,9 @@ function AutoPaper() {
 			const cb = str => {
 				setCurrent(current + 1)
 				console.log(str, 'str=======================strstr')
-				setOutline(str)
+				setPaper(str)
 				form4.setFieldsValue({paper: str})
+				calcScrollTop("contentDom")
 			}
 			/**
 			 * 完成的回调
@@ -128,6 +143,48 @@ function AutoPaper() {
 		
 		}
 	}
+	
+	/**
+	 * 复制
+	 */
+	const copy = () => {
+		if(!paperValue){
+			return
+		}
+		copyText(paperValue, { format: "text/plain" })
+		message.success("已复制")
+	}
+	
+	/**
+	 * 防抖
+	 */
+	const throttleClick  = _.throttle(() => {
+		 continueWrite()
+	})
+	
+	/**
+	 * 续写
+	 */
+	const continueWrite = async () =>{
+		const last_str = paper?.substr(-200);
+		const cb = str => {
+			let oldPaper = form4.getFieldValue("paper");
+			oldPaper += str;
+			form4.setFieldsValue({paper: oldPaper + str})
+		}
+		/**
+		 * 完成的回调
+		 */
+		const stopCallback = content =>{
+			//存上下文缓存
+			memory.addCache([
+				{role: "user",content: `我需要你根据大纲${outline}续写${last_str}不重复的报告内容`},
+				{role: "assistant",content}
+			])
+		}
+		await generate_paper_continue({ outline,last_str, cb, stopCallback })
+	}
+	
 	/**
 	 * 第四步
 	 * @returns {Promise<void>}
@@ -209,12 +266,13 @@ function AutoPaper() {
 				<div className="form step-3" style={{display: current === 3 ? "block" : "none"}}>
 					<Form form={form4} layout="vertical">
 						<Form.Item label="文章" name="paper">
-							<TextArea autoSize={{ minRows: 8, maxRows: 40 }} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount />
+							<TextArea id="contentDom" autoSize={{minRows: 8, maxRows: 40}}
+							          style={{scrollBehavior: "smooth", scrollbarWidth: "none", overflowStyle: "none"}} showCount/>
 						</Form.Item>
-						<div className="step4 option">
+						<div className="step4 option" onClick={copy}>
 							<CopyFilled /><span>复制</span>
 						</div>
-						<div className="step4 option">
+						<div className="step4 option" onClick={throttleClick}>
 							<SendOutlined /><span>让AI继续</span>
 						</div>
 						<Form.Item>
