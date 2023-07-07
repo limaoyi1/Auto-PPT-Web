@@ -18,5 +18,17 @@
 			position: relative;
 			width: 1160px;
 		}
+
+		.step4.option{
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+			&:hover{
+				color: #2977f0;
+			}
+			>span{
+				margin-left: 10px;
+			}
+		}
 	}
 }

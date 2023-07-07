@@ -5,8 +5,8 @@
  */
 import _ from 'lodash';
 import "./index.scss"
-import {Button, Form, Input, InputNumber, Radio, Steps} from "antd";
-import {MinusOutlined, PlusOutlined} from "@ant-design/icons"
+import {Button, Form, Input, InputNumber, Radio, Row, Steps} from "antd";
+import {MinusOutlined, PlusOutlined, CopyFilled,SendOutlined } from "@ant-design/icons"
 import ThButton from "@comp/button";
 import {generate_outline, generate_paper, generate_title} from "@services/generate";
 import {useState} from "react";
@@ -42,7 +42,7 @@ function AutoPaper() {
 	const [form2] = Form.useForm()
 	const [form3] = Form.useForm()
 	const [form4] = Form.useForm()
-	const [current, setCurrent] = useState(0)
+	const [current, setCurrent] = useState(3)
 	const [caption, setCaption] = useState("") // 标题
 	const [outline, setOutline] = useState("") // 大纲
 	
@@ -209,10 +209,16 @@ function AutoPaper() {
 				<div className="form step-3" style={{display: current === 3 ? "block" : "none"}}>
 					<Form form={form4} layout="vertical">
 						<Form.Item label="文章" name="paper">
-							<TextArea autoSize={{ minRows: 8, maxRows: 30 }} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount />
+							<TextArea autoSize={{ minRows: 8, maxRows: 40 }} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount />
 						</Form.Item>
+						<div className="step4 option">
+							<CopyFilled /><span>复制</span>
+						</div>
+						<div className="step4 option">
+							<SendOutlined /><span>让AI继续</span>
+						</div>
 						<Form.Item>
-							<ThButton title="下一步" type="primary" block onClick={fourthStep}/>
+							<ThButton title="下一步" type="primary" block onClick={fourthStep} style={{marginTop: 20}}/>
 						</Form.Item>
 					</Form>
 				</div>
