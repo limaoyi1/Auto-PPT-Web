@@ -46,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "babel-plugin-import": "^1.13.6",
     "cross-env": "^7.0.3",
     "env-cmd": "^10.1.0",
     "terser-webpack-plugin": "^5.3.9",
