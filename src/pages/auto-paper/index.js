@@ -166,11 +166,11 @@ function AutoPaper() {
 	 * 续写
 	 */
 	const continueWrite = async () =>{
+		let newPaper = ""
 		const last_str = paper?.substr(-200);
 		const cb = str => {
-			let oldPaper = form4.getFieldValue("paper");
-			oldPaper += str;
-			form4.setFieldsValue({paper: oldPaper + str})
+			newPaper = paper + str
+			form4.setFieldsValue({paper: newPaper})
 		}
 		/**
 		 * 完成的回调
