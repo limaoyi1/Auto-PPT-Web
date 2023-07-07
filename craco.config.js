@@ -24,7 +24,7 @@ module.exports = {
 			"@redux": path.resolve(__dirname, "src/redux"),
 			"@styles": path.resolve(__dirname, "src/styles")
 		},
-		publicPath: "/",
+		publicPath: "./",
 		plugins: [
 			// 打压缩包
 			...whenProd(() => [
