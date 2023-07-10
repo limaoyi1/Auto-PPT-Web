@@ -58,9 +58,11 @@ const Apply = props => {
 	const submit = async () => {
 		setContent("")
 		setLoading(true)
-		chatMessage({ chat: keyword, cb: handleStreamingCallback }).catch(e => {
+		try {
+			await chat_message({ prompt_chat: keyword, cb: handleStreamingCallback })
+		} catch (e){
 			setLoading(false)
-		})
+		}
 	}
 
 	/**

@@ -45,7 +45,7 @@ function AutoPaper() {
 	const [form3] = Form.useForm()
 	const [form4] = Form.useForm()
 	const [loading, setLoading] = useState(false)
-	const [current, setCurrent] = useState(4)
+	const [current, setCurrent] = useState(0)
 	const [caption, setCaption] = useState("") // 标题
 	const [outline, setOutline] = useState("") // 大纲
 	const [paper, setPaper] = useState("")     // 正文
