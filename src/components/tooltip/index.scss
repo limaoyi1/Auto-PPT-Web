@@ -1,0 +1,14 @@
+.tooltipWrap {
+    position: absolute;
+    bottom: 20px;
+    margin-top: 40px;
+    
+    .tooltip {
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #CAD6DA;
+        vertical-align: middle;
+        margin-left: 8px;
+    }
+}

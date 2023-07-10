@@ -42,4 +42,13 @@ export function generate_paper_continue(data) {
 	return request.post("/generate_paper_continue", { data },"sse")
 }
 
+/**
+ * 获取标题
+ * @param data
+ * @returns {Promise<*>}
+ */
+export function chat_message(data) {
+	return request.post("/chat_message", { data },"sse")
+}
+
 

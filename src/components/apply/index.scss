@@ -1,0 +1,256 @@
+.apply-container{
+	width: 1160px;
+	height: 100%;
+	margin: auto;
+	position: relative;
+
+	.apply-box {
+		width: 100%;
+		min-height: calc(100vh - 80px - 72px);
+		overflow-y: hidden;
+		background: #FFFFFF;
+		box-shadow: 0px 0px 12px 0px rgba(124,142,166,0.2);
+		border-radius: 4px;
+		display: inline-block;
+		padding: 40px;
+		box-sizing: border-box;
+		position: relative;
+
+		.apply-title{
+			width: 100%;
+			font-size: 32px;
+			font-weight: 600;
+			outline:none;
+			border-width: 0;
+			color: #333333;
+			line-height: 45px;
+		}
+		.apply-content-edit{
+			margin-top: 20px;
+			font-family: "Microsoft YaHei UI";
+			font-size: 14px;
+			line-height: 22px;
+			word-wrap: break-word;
+			font-weight: 400;
+			min-height: 44px;
+			outline:none;
+			border-width: 0;
+			color: #333333;
+		}
+		.apply-content-edit:empty:before{ content: '请输入正文'; color: gray; }
+
+
+	}
+
+	.apply-other-box{
+		width: 104px;
+		vertical-align: top;
+		display: inline-block;
+		position: absolute;
+		top: 0px;
+		right: -144px;
+		.apply-btn{
+			cursor: pointer;
+			margin-left: 20px;
+			margin-bottom: 20px;
+			width: 104px;
+			height: 32px;
+			background: linear-gradient(180deg, #29BAF0 0%, #2977F0 100%);
+			border-radius: 4px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			>img{
+				width: 16px;
+				height: 16px;
+				vertical-align: middle;
+				margin-right: 8px;
+			}
+			>span{
+				color: white;
+				font-size: 14px;
+				font-weight: 400;
+			}
+		}
+
+		.apply-tools{
+			margin-left: 20px;
+			width: 104px;
+			background: #F3F6FB;
+			border-radius: 4px;
+			border: 1px solid #E4E8EC;
+			padding: 16px 0px 16px 16px;
+			box-sizing: border-box;
+			.apply-tool-label{
+				margin-bottom: 16px;
+				font-size: 14px;
+				font-weight: 600;
+				color: #333333;
+				line-height: 20px;
+			}
+			.apply-tool{
+				cursor: pointer;
+				margin-bottom: 16px;
+				display: flex;
+				align-items: center;
+				>img{
+					width: 16px;
+					height: 16px;
+					vertical-align: middle;
+				}
+				>span{
+					margin-left: 8px;
+					font-size: 12px;
+					font-weight: 400;
+					color: #333333;
+					line-height: 17px;
+				}
+			}
+		}
+	}
+}
+
+.apply-wrap {
+	width: 1023px;
+	height: 236px;
+	position: fixed;
+	top: -200px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	margin: auto;
+	z-index: 20;
+	// cursor: pointer;
+
+	.apply-assistant{
+		margin-top: 16px;
+		display: flex;
+		background: #fff;
+		box-shadow: 0px 0px 12px 0px rgba(124, 142, 166, 0.2);
+		border-radius: 8px;
+		border: 1px solid #E4E8EC;
+		padding: 20px;
+		&-left{
+			>div:last-child{
+				width: 60px;
+				height: 17px;
+				font-size: 12px;
+				font-weight: 600;
+				color: #2977F0;
+				line-height: 17px;
+			}
+		}
+		&-middle{
+			width: calc(100% - 60px);
+			max-height: 470px;
+			margin: 0 10px;
+			padding: 20px;
+			box-sizing: border-box;
+			position: relative;
+			>div:first-child{
+				.apply-text{
+					padding: 13px 70px 13px 12px;
+					box-sizing: border-box;
+					width: 100%;
+					background: #F6F9FA;
+					border-radius: 4px;
+					outline:none;
+					border-width: 0;
+				}
+				.apply-text:empty:before{ content: '输入文字，向AI提问'; color: gray; }
+				.apply-textarea-box{
+					width: 100%;
+					max-height: 200px;
+					line-height: 1.15;
+					padding: 13px 70px 13px 12px;
+					box-sizing: border-box;
+					background: #F6F9FA;
+					border-radius: 4px;
+					.apply-textarea{
+						width: 100%;
+						line-height: 1.15;
+						background: #F6F9FA;
+						outline:none;
+						border-width: 0;
+
+						&::-webkit-scrollbar{
+							width: 6px;
+							height: 6px;
+						}
+						&::-webkit-scrollbar-thumb{
+							background: #aaa;
+							border-radius: 6px;
+							-webkit-box-shadow: inset 0 0 500px rgba(153, 151, 151, 0);
+						}
+					}
+					.apply-submit{
+						width: 52px;
+						height: 28px;
+						background: #2977F0;
+						border-radius: 4px;
+						border-width: 0;
+						color: white;
+						position: absolute;
+						right: 10px;
+						top: 10px;
+						cursor: pointer;
+						outline:none;
+						&:hover{
+							background-color: #29BAF0;
+						}
+					}
+				}
+			}
+			>div:nth-child(2){
+				margin: 16px 0;
+				white-space:pre-wrap;
+				// width: 920px;
+				//height: calc(100% - 600px);
+				overflow-y: auto;
+				overflow-x: hidden;
+			}
+			>div:last-child{
+				>img{
+					vertical-align: middle;
+				}
+				>span{
+					margin-left: 8px;
+					height: 20px;
+					font-size: 14px;
+					font-weight: 400;
+					color: #CAD6DA;
+					line-height: 20px;
+				}
+				.copy-btn {
+					float: right;
+					height: 28px;
+					background: #2977F0;
+					border-radius: 4px;
+					border-width: 0;
+					color: white;
+					cursor: pointer;
+					outline:none;
+					&:hover{
+						background-color: #29BAF0;
+					}
+				}
+			}
+
+			.contentWrap {
+				max-height: 200px;
+				margin: 20px 0px;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: column-reverse;
+				overflow: auto;
+				line-height: 1.15;
+			}
+		}
+		&-right{
+			width: 24px;
+			height: 24px;
+			cursor: pointer;
+			display: inline-block;
+		}
+	}
+}

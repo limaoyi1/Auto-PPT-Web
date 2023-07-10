@@ -5,13 +5,14 @@
  */
 import _ from 'lodash';
 import "./index.scss"
-import {Button, Form, Input, InputNumber, Radio, Row, Steps, message, Spin} from "antd";
-import {MinusOutlined, PlusOutlined, CopyFilled,SendOutlined } from "@ant-design/icons"
+import { Form, Input, InputNumber, Radio, Steps, message, Spin} from "antd";
+import {CopyFilled,SendOutlined } from "@ant-design/icons"
 import ThButton from "@comp/button";
 import {generate_outline, generate_paper, generate_paper_continue, generate_title} from "@services/generate";
 import {useState} from "react";
 import memory from "@utils/memory";
 import copyText from "copy-to-clipboard"
+import ApplyComp from "@comp/apply"
 
 const {TextArea} = Input;
 
@@ -44,7 +45,7 @@ function AutoPaper() {
 	const [form3] = Form.useForm()
 	const [form4] = Form.useForm()
 	const [loading, setLoading] = useState(false)
-	const [current, setCurrent] = useState(0)
+	const [current, setCurrent] = useState(4)
 	const [caption, setCaption] = useState("") // 标题
 	const [outline, setOutline] = useState("") // 大纲
 	const [paper, setPaper] = useState("")     // 正文
@@ -202,7 +203,7 @@ function AutoPaper() {
 	 * @returns {Promise<void>}
 	 */
 	const fourthStep = async () =>{
-	
+		setCurrent(4)
 	}
 	
 	
@@ -252,7 +253,7 @@ function AutoPaper() {
 						</Form>
 					</div>
 					{/*第三步*/}
-					<div className="form step-2" style={{display: current === 2 ? "block" : "none"}}>
+					<div className="form step-3" style={{display: current === 2 ? "block" : "none"}}>
 						<Form form={form3} layout="vertical">
 							<Form.Item name="outline" initialValue={outline} label="大纲"  rules={[{required: true, message: '请添加大纲!'}]}>
 								<TextArea
@@ -276,7 +277,7 @@ function AutoPaper() {
 						</Form>
 					</div>
 					{/*第四步*/}
-					<div className="form step-3" style={{display: current === 3 ? "block" : "none"}}>
+					<div className="form step-4" style={{display: current === 3 ? "block" : "none"}}>
 						<Form form={form4} layout="vertical">
 							<Form.Item label="文章" name="paper">
 								<TextArea id="contentDom" autoSize={{minRows: 8, maxRows: 40}}
@@ -294,8 +295,10 @@ function AutoPaper() {
 						</Form>
 					</div>
 					{/*第五步*/}
-					<div className="form step-3" style={{display: current === 4 ? "block" : "none"}}>
-					
+					<div className="form step-5" style={{display: current === 4 ? "block" : "none"}}>
+						<article>
+							<ApplyComp visibleModel={false} subject={caption} content={paper} />
+						</article>
 					</div>
 				</div>
 			</Spin>
