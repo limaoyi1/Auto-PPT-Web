@@ -1,7 +1,7 @@
 import './App.css';
 import { HashRouter, Routes, Route } from "react-router-dom"
 import Home from "@/pages/home";
-import AutoPaper from "@/pages/auto-paper";
+import AutoPaper from "@/pages/auto-ppt";
 
 function App() {
   return (
@@ -9,7 +9,7 @@ function App() {
       <HashRouter>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auto-paper" element={<AutoPaper />} />
+          <Route path="/auto-ppt" element={<AutoPaper />} />
         </Routes>
       </HashRouter>
     </div>

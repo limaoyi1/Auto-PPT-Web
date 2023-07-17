@@ -16,6 +16,20 @@ import ApplyComp from "@comp/apply"
 
 const {TextArea} = Input;
 
+//添加一个uuid作为生成的唯一标识
+
+import { v4 as uuidv4 } from 'uuid';
+
+// 判断是否为刷新后加载
+const isRefreshed = performance.getEntriesByType('navigation')[0].type === 'reload';
+
+// 生成唯一标识符
+const uuid = isRefreshed ? uuidv4() : 'YOUR_DEFAULT_UUID';
+
+// 将uuid常量作为全局变量
+window.UUID = uuid;
+
+
 const items = [
 	{
 		title: "添加描述",
@@ -34,8 +48,8 @@ const items = [
 		description: "基于大纲生成内容"
 	},
 	{
-		title: "扩展加工",
-		description: "内容扩展，加工编辑"
+		title: "PPT下载",
+		description: "兼容更多的MD格式"
 	}
 ]
 
@@ -94,17 +108,7 @@ function AutoPaper() {
 				setOutline(str)
 				form3.setFieldsValue({outline: str})
 			}
-			/**
-			 * 完成的回调
-			 */
-			const stopCallback = content =>{
-				//存上下文缓存
-				memory.addCache([
-					{role: "user",content: `使用中文根据【${values.title}】生成大纲，大纲要求【${values.requirement}】`},
-					{role: "assistant",content}
-				])
-			}
-			await generate_outline({...values, cb, stopCallback})
+			await generate_outline({...values, cb})
 			setLoading(false)
 		} catch (e) {
 			setLoading(false)
@@ -137,17 +141,7 @@ function AutoPaper() {
 				form4.setFieldsValue({paper: str})
 				calcScrollTop("contentDom")
 			}
-			/**
-			 * 完成的回调
-			 */
-			const stopCallback = content =>{
-				//存上下文缓存
-				memory.addCache([
-					{role: "user",content: `我需要你根据大纲扩写文章. 要求${values.requirement}大纲为${values.outline}`},
-					{role: "assistant",content}
-				])
-			}
-			await generate_paper({...values, cb, stopCallback})
+			await generate_paper({...values, cb})
 			setLoading(false)
 		}catch (e) {
 			setLoading(false)
@@ -202,19 +196,40 @@ function AutoPaper() {
 	 * 第四步
 	 * @returns {Promise<void>}
 	 */
-	const fourthStep = async () =>{
-		setCurrent(4)
-	}
+	const fourthStep = async () => {
+		setCurrent(4);
+		const response = await fetch('http://localhost:5000/generate_ppt', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ paper }),
+		});
+		if (response.ok) {
+			const blob = await response.blob();
+			const url = URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = 'generated_ppt.pptx';
+			link.click();
+		} else {
+			console.error('Failed to generate PPT.');
+		}
+	};
 	
 	
 	return (
-		<div className="auto-paper">
+		<div className="auto-ppt">
 			<Spin  tip="思考中，请稍等片刻..." spinning={loading}>
-				<div className="auto-paper-box">
+				<div className="auto-ppt-box">
 					<Steps current={current} items={items}/>
 					{/*第一步*/}
 					<div className="form step-1" style={{display: current === 0 ? "block" : "none"}}>
 						<Form form={form} layout="vertical">
+							{/* 添加UUID隐藏字段 */}
+							<Form.Item name="uuid" initialValue={uuid} style={{ display: 'none' }}>
+								<Input type="hidden" />
+							</Form.Item>
 							<Form.Item label="报告类型" name="title" rules={[{required: true, message: '请输入报告类型!'}]}>
 								<TextArea style={{height: 80, resize: "none", borderRadius: 4}} maxLength={10} showCount
 								          placeholder="输入您要编写的报告类型，如工作汇报、市场调研、项目方案、产品需求文档等"/>
@@ -237,6 +252,10 @@ function AutoPaper() {
 					{/*第二步*/}
 					<div className="form step-2" style={{display: current === 1 ? "block" : "none"}}>
 						<Form form={form2} layout="vertical">
+							{/* 添加UUID隐藏字段 */}
+							<Form.Item name="uuid" initialValue={uuid} style={{ display: 'none' }}>
+								<Input type="hidden" />
+							</Form.Item>
 							<Form.Item label="选择标题" name="title" rules={[{required: true, message: '请选择标题!'}]}>
 								<Radio.Group>
 									{
@@ -245,7 +264,7 @@ function AutoPaper() {
 								</Radio.Group>
 							</Form.Item>
 							<Form.Item label="添加大纲生成要求" name="requirement" rules={[{required: true, message: '请添加大纲生成要求!'}]}>
-								<TextArea rows={8} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount placeholder="您可以继续输入对于文章大纲的要求，如层次分明，逻辑严谨，章节序号依次按照“一、”“（一）、”“1、”“（1）、”进行标注"/>
+								<TextArea rows={8} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount placeholder="您可以继续输入对于文章大纲的要求.例如需要展示重点展示的方面"/>
 							</Form.Item>
 							<Form.Item>
 								<ThButton title="下一步" type="primary" block onClick={secondStep}/>
@@ -255,6 +274,10 @@ function AutoPaper() {
 					{/*第三步*/}
 					<div className="form step-3" style={{display: current === 2 ? "block" : "none"}}>
 						<Form form={form3} layout="vertical">
+							{/* 添加UUID隐藏字段 */}
+							<Form.Item name="uuid" initialValue={uuid} style={{ display: 'none' }}>
+								<Input type="hidden" />
+							</Form.Item>
 							<Form.Item name="outline" initialValue={outline} label="大纲"  rules={[{required: true, message: '请添加大纲!'}]}>
 								<TextArea
 									autoSize={{ minRows: 3, maxRows: 30 }}
@@ -263,7 +286,7 @@ function AutoPaper() {
 									placeholder="输入大纲信息"
 								/>
 							</Form.Item>
-							<Form.Item name="requirement" label="添加全文生成要求"  rules={[{required: true, message: '请添加文章全文的生成要求!'}]}>
+							<Form.Item name="requirement" label="添加全文生成要求"  rules={[{required: false, message: '请添加文章全文的生成要求!'}]}>
 								<TextArea
 									showCount
 									maxLength={500}
@@ -296,9 +319,13 @@ function AutoPaper() {
 					</div>
 					{/*第五步*/}
 					<div className="form step-5" style={{display: current === 4 ? "block" : "none"}}>
-						<article>
-							<ApplyComp visibleModel={false} subject={caption} content={paper} />
-						</article>
+
+						{/*<article>*/}
+						{/*	<ApplyComp visibleModel={false} subject={caption} content={paper} />*/}
+						{/*</article>*/}
+						<p style={{ fontWeight: "bold", fontSize: "88px", textAlign: "center"}}>
+							感谢你的使用!
+						</p>
 					</div>
 				</div>
 			</Spin>

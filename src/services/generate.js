@@ -30,7 +30,7 @@ export function generate_outline(data) {
  * @returns {Promise<*>}
  */
 export function generate_paper(data) {
-	return request.post("/generate_paper", { data },"sse")
+	return request.post("/generate_body", { data },"sse")
 }
 
 /**
@@ -51,4 +51,11 @@ export function chat_message(data) {
 	return request.post("/chat_message", { data },"sse")
 }
 
-
+/**
+ * 获取PPT
+ * @param data
+ * @returns {Promise<*>}
+ */
+export function generate_ppt(data) {
+	return request.post("/generate_ppt", { data },"sse")
+}
