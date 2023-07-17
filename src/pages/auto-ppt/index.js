@@ -198,7 +198,7 @@ function AutoPaper() {
 	 */
 	const fourthStep = async () => {
 		setCurrent(4);
-		const response = await fetch('http://localhost:5000/generate_ppt', {
+		const response = await fetch(process.env.REACT_APP_BASE_API + '/generate_ppt', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
