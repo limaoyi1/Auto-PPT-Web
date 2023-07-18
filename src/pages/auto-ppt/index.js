@@ -24,7 +24,7 @@ import { v4 as uuidv4 } from 'uuid';
 const isRefreshed = performance.getEntriesByType('navigation')[0].type === 'reload';
 
 // 获取当前时间戳
-const currentTimestamp = new Date().getTime();
+const currentTimestamp = new Date().getTime().toString();
 
 // 生成唯一标识符
 const uuid = isRefreshed ? uuidv4() : currentTimestamp;
