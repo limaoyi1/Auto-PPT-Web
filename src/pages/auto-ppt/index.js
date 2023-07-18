@@ -23,8 +23,11 @@ import { v4 as uuidv4 } from 'uuid';
 // 判断是否为刷新后加载
 const isRefreshed = performance.getEntriesByType('navigation')[0].type === 'reload';
 
+// 获取当前时间戳
+const currentTimestamp = new Date().getTime();
+
 // 生成唯一标识符
-const uuid = isRefreshed ? uuidv4() : 'YOUR_DEFAULT_UUID';
+const uuid = isRefreshed ? uuidv4() : currentTimestamp;
 
 // 将uuid常量作为全局变量
 window.UUID = uuid;
