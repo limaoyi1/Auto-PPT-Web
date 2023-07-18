@@ -29,6 +29,9 @@ const uuid = isRefreshed ? uuidv4() : 'YOUR_DEFAULT_UUID';
 // 将uuid常量作为全局变量
 window.UUID = uuid;
 
+const defaultRequirement1 = '结构清晰'; //请在这里输入默认的大纲生成要求
+
+const defaultRequirement2 = '内容丰富';
 
 const items = [
 	{
@@ -232,13 +235,13 @@ function AutoPaper() {
 							</Form.Item>
 							<Form.Item label="报告类型" name="title" rules={[{required: true, message: '请输入报告类型!'}]}>
 								<TextArea style={{height: 80, resize: "none", borderRadius: 4}} maxLength={10} showCount
-								          placeholder="输入您要编写的报告类型，如工作汇报、市场调研、项目方案、产品需求文档等"/>
+								          placeholder="输入您要编写的PPT类型，如工作汇报、市场调研、项目方案等"/>
 							</Form.Item>
 							<Form.Item label="您希望AI以什么角色进行编写" name="role" rules={[{required: true, message: '请输入演讲者角色!'}]}>
-								<Input maxLength={10} showCount placeholder="输入演讲者角色"/>
+								<Input maxLength={10} showCount placeholder="输入演讲者角色，例如老师，程序员，产品经理...等职业"/>
 							</Form.Item>
 							<Form.Item label="主题" name="form" rules={[{required: true, message: '请输入输入主题信息!'}]}>
-								<TextArea style={{height: 120, resize: "none", borderRadius: 4}} showCount placeholder="输入主题信息"/>
+								<TextArea style={{height: 120, resize: "none", borderRadius: 4}} showCount placeholder="输入主题信息,例如： 关于xx产品的市场调研"/>
 							</Form.Item>
 							<Form.Item layout="inline" label="标题数量" name="topic_num" initialValue={3}
 							           rules={[{required: true, message: '请输入标题数量!'}]}>
@@ -263,8 +266,8 @@ function AutoPaper() {
 									}
 								</Radio.Group>
 							</Form.Item>
-							<Form.Item label="添加大纲生成要求" name="requirement" rules={[{required: true, message: '请添加大纲生成要求!'}]}>
-								<TextArea rows={8} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount placeholder="您可以继续输入对于文章大纲的要求.例如需要展示重点展示的方面"/>
+							<Form.Item label="添加大纲生成要求" name="requirement" rules={[{required: true, message: '请添加大纲生成要求!'}]} initialValue={defaultRequirement1} >
+								<TextArea rows={8} style={{ height: 200, resize: "none", borderRadius: 4 }} showCount placeholder="您可以继续输入对于文章大纲的要求.结构清晰等等"/>
 							</Form.Item>
 							<Form.Item>
 								<ThButton title="下一步" type="primary" block onClick={secondStep}/>
@@ -286,7 +289,7 @@ function AutoPaper() {
 									placeholder="输入大纲信息"
 								/>
 							</Form.Item>
-							<Form.Item name="requirement" label="添加全文生成要求"  rules={[{required: false, message: '请添加文章全文的生成要求!'}]}>
+							<Form.Item name="requirement" label="添加全文生成要求"  rules={[{required: false, message: '请添加文章全文的生成要求!'}]} initialValue={defaultRequirement2}>
 								<TextArea
 									showCount
 									maxLength={500}
